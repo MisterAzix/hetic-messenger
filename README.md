@@ -13,6 +13,7 @@ Don't forget to install composer dependencies
 
 1. Run `docker ps` to and search the id of the `hetic-messenger-symfony` container
 2. Run `docker exec -ti [container-id] bash` to enter the container's CLI
+3. Run `cd symfony`
 3. Run `composer i` to install dependencies
 
 **Enjoy!**
