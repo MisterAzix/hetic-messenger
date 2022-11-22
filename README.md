@@ -17,3 +17,9 @@ Don't forget to install composer dependencies
 3. Run `composer i` to install dependencies
 
 **Enjoy!**
+
+## Copyrights ©
+
+Maxence BREUILLES ([@MisterAzix](https://github.com/MisterAzix))<br />
+Julian LABALLE ([@Triips-TheCoder](https://github.com/Triips-TheCoder))<br />
+Anis Coquelet ([@aniscoquelet](https://github.com/aniscoquelet))
