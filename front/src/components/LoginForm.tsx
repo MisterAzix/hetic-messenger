@@ -32,8 +32,7 @@ export const LoginForm = () => {
     getJWT(data.username, data.password).then((data) => {
       setIsLoading(false);
       if (data.JWT) {
-        console.log(data);
-        //router.push('/');
+        router.push('/room');
       } else if (data.message === 'Bad credentials') {
         setError('Incorrect password!');
       } else {

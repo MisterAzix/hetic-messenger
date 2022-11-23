@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\JsonHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,10 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     private UserPasswordHasherInterface $passwordHasher;
+    private JsonHelper $jsonHelper;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, JsonHelper $jsonHelper)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->jsonHelper = $jsonHelper;
     }
 
     #[Route('/user-list', name: 'user_list')]
@@ -32,7 +35,7 @@ class UserController extends AbstractController
     #[Route("/user/new", name: "user_creation", methods: ["POST"])]
     public function userCreation(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $json = $this->getJson($request);
+        $json = $this->jsonHelper->getJson($request);
 
         if ($json["password"] !== $json["confirm_password"]) {
             return $this->json([
@@ -50,16 +53,5 @@ class UserController extends AbstractController
         return $this->json([
             'user' => $newUser
         ], 200, [], ['groups' => 'main']);
-    }
-
-    private function getJson(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new HttpException(400, 'Invalid json');
-        }
-
-        return $data;
     }
 }
