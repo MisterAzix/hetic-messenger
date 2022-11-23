@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import css from './Home.module.scss';
+import Link from 'next/link';
 
 export default function Page() {
   return (
@@ -10,11 +11,9 @@ export default function Page() {
         <link rel="icon" href="/front/public/favicon.ico" />
       </Head>
 
-      <main className={css.main}>
-        <h1 className={css.title}>
-          Welcome to <a href="https://nextjs.org">Hetic Messenger!</a>
-        </h1>
-      </main>
+      <h1 className={css.title}>
+        Welcome to <Link href={'/login'}>HETIC Messenger!</Link>
+      </h1>
     </div>
   );
 }
