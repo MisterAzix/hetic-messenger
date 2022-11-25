@@ -20,40 +20,12 @@ class SecurityController extends AbstractController
     {
         /** @var $user User */
         if ($user = $this->getUser()) {
-
-            /*
-             * Update est privé donc le destinataire doit avoir subscribe aux deux
-             * topics pour pouvoir y accéder, et l'un deux est souscrit dans le JWT
-             * ... sécurité
-             */
-//            $update = new Update(
-//                [
-//                    "https://example.com/my-private-topic",
-//                    "https://example.com/user/{$user->getId()}/?topic=" . urlencode("https://example.com/my-private-topic")
-//                ],
-//                json_encode([
-//                    'username' => $user->getUsername(),
-//                    'userId' => $user->getId(),
-//                    'JWT' => $helper->createJWT($user)
-//                ]),
-//                true
-//            );
-//            $hub->publish($update);
-
             return $this->json([
                 'JWT' => $helper->createJWT($user)
             ], 200, [
                 'set-cookie' => $cookieHelper->createMercureCookie($user)
             ]);
         }
-
-//        $update = new Update(
-//            'https://example.com/my-private-topic',
-//            json_encode([
-//                'message' => 'A bad credentials exceptions was triggered'
-//            ])
-//        );
-//        $hub->publish($update);
 
         return $this->json([
             'message' => 'Bad credentials',
