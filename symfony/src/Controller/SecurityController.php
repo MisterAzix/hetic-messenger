@@ -21,6 +21,7 @@ class SecurityController extends AbstractController
         /** @var $user User */
         if ($user = $this->getUser()) {
             return $this->json([
+                'success' => true,
                 'JWT' => $helper->createJWT($user)
             ], 200, [
                 'set-cookie' => $cookieHelper->createMercureCookie($user)
@@ -28,6 +29,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->json([
+            'success' => false,
             'message' => 'Bad credentials',
             'Authorization' => 'Basic'
         ]);
