@@ -59,6 +59,7 @@ services:
       MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMeLaterOrIWillDieReallyReallySoonIWantToDie!'
       MERCURE_EXTRA_DIRECTIVES:
         cors_origins "http://localhost:3000"
+        cors_origins "http://localhost:5173"
         cors_origins "http://localhost:8245"
     #                anonymous
     # Uncomment the following line to enable the development mode
