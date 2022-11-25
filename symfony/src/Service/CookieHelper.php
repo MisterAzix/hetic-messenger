@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\User;
-use Firebase\JWT\JWT;
 use Symfony\Component\HttpFoundation\Cookie;
 
 class CookieHelper
