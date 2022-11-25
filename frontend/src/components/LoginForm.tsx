@@ -3,8 +3,11 @@ import useGetJWT from '../hooks/useGetJWT';
 import { useState } from 'react';
 import { Alert, Box, FormGroup } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { redirect } from 'react-router-dom';
 import { FormInputText } from './FormInputText';
+import { useDispatch } from 'react-redux';
+import { addAuth } from '../store/authSlice';
+import { AppDispatch } from '../store/store';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IFormInput {
   username: string;
@@ -16,20 +19,25 @@ const defaultValues: IFormInput = {
   password: '',
 };
 
-export function LoginForm(props: IFormInput) {
-  const { control, handleSubmit } = useForm();
+export function LoginForm() {
+  const { control, handleSubmit } = useForm<IFormInput>({ defaultValues });
+  const dispatch: AppDispatch = useDispatch();
+  const getJWT = useGetJWT();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const getJWT = useGetJWT();
 
-  const onSubmit = (userData: IFormInput) => {
+  const onSubmit = (formData: IFormInput) => {
     setIsLoading(true);
     setError('');
-    //TODO: Typer data
-    getJWT(userData).then((data) => {
+    getJWT(formData).then((data) => {
       setIsLoading(false);
-      if (data.JWT) {
-        redirect('/room');
+      if (data.success && data.JWT) {
+        dispatch(addAuth({ jwt: data.JWT }));
+        navigate(from, { replace: true });
       } else if (data.message === 'Bad credentials') {
         setError('Incorrect password!');
       } else {
