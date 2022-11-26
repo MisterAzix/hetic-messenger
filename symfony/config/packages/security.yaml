@@ -17,12 +17,19 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        login:
+            pattern: ^/login$
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator:
+                - App\Security\ApiBasicAuthenticator
+            stateless: true
         main:
             lazy: true
             stateless: true
             provider: app_user_provider
             custom_authenticator:
-                - App\Security\ApiBasicAuthenticator
+                - App\Security\JWTCheckerAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout

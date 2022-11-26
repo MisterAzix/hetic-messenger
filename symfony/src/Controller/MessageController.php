@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Message;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\JsonHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mercure\HubInterface;
@@ -15,26 +16,28 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
+    private string $mercureSecret;
     private JsonHelper $jsonHelper;
 
-    public function __construct(JsonHelper $jsonHelper)
+    public function __construct(string $mercureSecret, JsonHelper $jsonHelper)
     {
+        $this->mercureSecret = $mercureSecret;
         $this->jsonHelper = $jsonHelper;
     }
 
-    #[Route('/message/{user}', name: 'message_user', methods: 'POST')]
-    public function messageUser(Request $request, UserRepository $userRepository, User $user, EntityManagerInterface $entityManager, HubInterface $hub)
+    #[Route('/message/{toUser}', name: 'message_user', methods: 'POST')]
+    public function messageUser(Request $request, UserRepository $userRepository, User $toUser, EntityManagerInterface $entityManager, HubInterface $hub)
     {
-        $json = $this->jsonHelper->getJson($request);
+        $fromUser = $this->getUser();
 
-        if (!isset($json["from_user"])) {
+        if (!$fromUser) {
             return $this->json([
                 'success' => false,
-                'message' => 'Sender user is not defined!'
+                'message' => 'Sender user is undefined!'
             ]);
         }
 
-        $from_user = $userRepository->findOneBy(['id' => $json["from_user"]]);
+        $json = $this->jsonHelper->getJson($request);
 
         if (!isset($json["message"])) {
             return $this->json([
@@ -46,14 +49,12 @@ class MessageController extends AbstractController
         $update = new Update(
             [
                 "https://example.com/my-private-topic",
-                "https://example.com/user/{$user->getId()}/?topic=" . urlencode("https://example.com/my-private-topic")
+                "https://example.com/user/{$toUser->getId()}/?topic=" . urlencode("https://example.com/my-private-topic")
             ],
             json_encode([
-                'user' => $user->getUsername(),
-                'id' => $user->getId(),
+                'from' => $fromUser->getId(),
+                'to' => $toUser->getId(),
                 'message' => $json["message"],
-                'from' => $from_user->getUsername(),
-                'to' => $user->getUsername(),
             ]),
             true
         );
