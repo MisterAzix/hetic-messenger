@@ -5,6 +5,7 @@ import { store } from './store/store';
 import Home from './components/Home';
 import { LoginForm } from './components/LoginForm';
 import { NeedAuth } from './components/NeedAuth';
+import { RegisterForm } from './components/RegisterForm';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Routes>
           <Route path={'/'} element={<Home />} />
           <Route path={'/login'} element={<LoginForm />} />
-          <Route path={'/register'} element={<h1>Register</h1>} />
+          <Route path={'/register'} element={<RegisterForm />} />
           <Route
             path={'/room'}
             element={
