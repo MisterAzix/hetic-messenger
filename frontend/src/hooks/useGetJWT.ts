@@ -10,7 +10,7 @@ interface IGetJWTResponse {
 }
 
 export default function useGetJWT() {
-  return function ({ username, password }: IGetJWTRequest) {
+  return function ({ username, password }: IGetJWTRequest): Promise<IGetJWTResponse> {
     const credentials = btoa(`${username}:${password}`);
 
     return fetch('http://localhost:8245/login', {
@@ -20,6 +20,6 @@ export default function useGetJWT() {
       headers: {
         Authorization: `Basic ${credentials}`,
       },
-    }).then((data): Promise<IGetJWTResponse> => data.json());
+    }).then((data) => data.json());
   };
 }

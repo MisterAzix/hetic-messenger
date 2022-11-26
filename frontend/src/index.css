@@ -5,7 +5,7 @@
   font-weight: 400;
 
   /*color-scheme: light dark;*/
-  color: rgba(255, 255, 255, 0.87);
+  /*color: rgba(255, 255, 255, 0.87);*/
   /*background-color: #242424;*/
 
   font-synthesis: none;
@@ -26,6 +26,7 @@ a:hover {
 
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;

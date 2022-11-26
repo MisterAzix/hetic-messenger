@@ -6,6 +6,8 @@ import Home from './components/Home';
 import { LoginForm } from './components/LoginForm';
 import { NeedAuth } from './components/NeedAuth';
 import { RegisterForm } from './components/RegisterForm';
+import Room from './components/Room/Room';
+import Chat from './components/Room/Chat';
 
 function App() {
   return (
@@ -13,16 +15,18 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path={'/'} element={<Home />} />
-          <Route path={'/login'} element={<LoginForm />} />
-          <Route path={'/register'} element={<RegisterForm />} />
+          <Route path={'login'} element={<LoginForm />} />
+          <Route path={'register'} element={<RegisterForm />} />
           <Route
-            path={'/room'}
+            path={'room'}
             element={
               <NeedAuth>
-                <h1>Room</h1>
+                <Room />
               </NeedAuth>
             }
-          />
+          >
+            <Route path=":userId" element={<Chat />} />
+          </Route>
           <Route path="*" element={<h1>404 not found</h1>} />
         </Routes>
       </BrowserRouter>

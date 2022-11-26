@@ -1,0 +1,29 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: 1fr;
+}
+
+.aside {
+  background: darkgray;
+  max-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr;
+}
+
+.list {
+  overflow-y: scroll;
+  padding: 1rem;
+}
+
+.title {
+  background: darkgray;
+  text-align: center;
+}
+
+.chatContainer {
+  padding: 1rem;
+}
