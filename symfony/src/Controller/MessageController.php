@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\JsonHelper;
@@ -16,12 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MessageController extends AbstractController
 {
-    private string $mercureSecret;
     private JsonHelper $jsonHelper;
 
-    public function __construct(string $mercureSecret, JsonHelper $jsonHelper)
+    public function __construct(JsonHelper $jsonHelper)
     {
-        $this->mercureSecret = $mercureSecret;
         $this->jsonHelper = $jsonHelper;
     }
 
@@ -45,6 +44,15 @@ class MessageController extends AbstractController
                 'message' => 'Message cannot be null!'
             ]);
         }
+
+        $message = new Message();
+        $message->setFromUser($fromUser)
+            ->setToUser($toUser)
+            ->setContent($json["message"])
+            ->setSentAt(new \DateTime());
+
+        $entityManager->persist($message);
+        $entityManager->flush();
 
         $update = new Update(
             [
