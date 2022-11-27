@@ -73,6 +73,7 @@ export function Chat() {
         ) : (
           <div>No message yet!</div>
         )}
+        <div className={css.anchor}></div>
       </div>
       <ChatForm />
     </div>
