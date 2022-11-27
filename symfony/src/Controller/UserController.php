@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -28,7 +27,6 @@ class UserController extends AbstractController
     public function userList(UserRepository $userRepository): JsonResponse
     {
         return $this->json([
-            'success' => true,
             'users' => $userRepository->findAll()
         ], 200, [], ['groups' => 'main']);
     }
@@ -40,7 +38,6 @@ class UserController extends AbstractController
 
         if ($json["password"] !== $json["confirm_password"]) {
             return $this->json([
-                'success' => false,
                 'message' => 'Password and confirm password must be same!'
             ]);
         }
@@ -53,7 +50,6 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         return $this->json([
-            'success' => true,
             'user' => $newUser
         ], 200, [], ['groups' => 'main']);
     }

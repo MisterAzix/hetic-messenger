@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,27 @@ class MessageRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllUserMessages(User $user): array
+    {
+        $messages = $this->createQueryBuilder('m')
+            ->andWhere('m.from_user = :user OR m.to_user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('m.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        $func = function(Message $message) {
+            return ([
+                'from' => $message->getFromUser(),
+                'to' => $message->getToUser(),
+                'content' => $message->getContent(),
+                'sent_at' => $message->getSentAt(),
+            ]);
+        };
+
+        return array_map($func, $messages);
     }
 
 //    /**
