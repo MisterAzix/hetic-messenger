@@ -4,9 +4,10 @@ import { LoadingButton } from '@mui/lab';
 import { FormInputText } from '../FormInputText';
 import { useState } from 'react';
 import useSendMessage from '../../hooks/useSendMessage';
-import { useSelector } from 'react-redux';
-import { AppState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, AppState } from '../../store/store';
 import { useParams } from 'react-router-dom';
+import { addOneMessage } from '../../store/messageSlice';
 
 interface IFormInput {
   message: string;
@@ -17,22 +18,19 @@ const defaultValues: IFormInput = {
 };
 
 export const ChatForm = () => {
+  const dispatch: AppDispatch = useDispatch();
   const { control, handleSubmit } = useForm<IFormInput>({ defaultValues });
   const sendMessage = useSendMessage();
   const { userId } = useParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { jwt } = useSelector((state: AppState) => ({
-    jwt: state.auth,
-  }));
-
   const onSubmit = (formData: IFormInput) => {
     setIsLoading(true);
-    sendMessage({ jwt, id: userId || '', message: formData.message }).then((data) => {
+    sendMessage({ id: userId || '', message: formData.message }).then((data) => {
       setIsLoading(false);
       if (data) {
-        //console.log(data);
+        dispatch(addOneMessage(data));
       }
     });
   };
