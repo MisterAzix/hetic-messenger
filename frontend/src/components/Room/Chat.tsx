@@ -1,20 +1,34 @@
 import { ChatForm } from './ChatForm';
 import css from './Chat.module.scss';
-import { useEffect, useState } from 'react';
-import { Alert } from '@mui/material';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { AppDispatch, AppState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addOneMessage } from '../../store/messageSlice';
+import { parseJwt } from '../../utils';
+import { Card, CardContent } from '@mui/material';
 
 export default function Chat() {
+  const dispatch: AppDispatch = useDispatch();
   const { userId } = useParams();
 
-  const [notifications, setNotifications] = useState<string[]>([]);
+  const { jwt, messages } = useSelector((state: AppState) => ({
+    jwt: state.auth,
+    messages: state.messages,
+  }));
+
+  const me = String(parseJwt(jwt).mercure.payload.userid);
+
+  const roomMessages = messages.filter(
+    (message) =>
+      (String(message.from.id) === me && String(message.to.id) === String(userId)) ||
+      (String(message.from.id) === String(userId) && String(message.to.id) === me),
+  );
+  console.log(roomMessages);
 
   const handleMessage = (e: MessageEvent) => {
     const data = JSON.parse(e.data);
-    setNotifications((prevState) => [...prevState, data.message]);
-    setTimeout(() => {
-      setNotifications((prevState) => prevState.filter((el) => el !== data.message));
-    }, 3000);
+    dispatch(addOneMessage(data));
   };
 
   useEffect(() => {
@@ -31,9 +45,22 @@ export default function Chat() {
 
   return (
     <div className={css.container}>
-      <div>
-        <div>Room {userId}</div>
-        {notifications.length ? notifications.map((notif) => <Alert>{notif}</Alert>) : null}
+      <div className={css.messages}>
+        {roomMessages.length ? (
+          roomMessages.reverse().map((message, key) =>
+            String(message.from.id) === me ? (
+              <Card sx={{ maxWidth: '75%', marginY: '0.5rem', marginLeft: 'auto' }} key={key}>
+                <CardContent>{message.content}</CardContent>
+              </Card>
+            ) : (
+              <Card sx={{ maxWidth: '75%', marginY: '0.5rem' }} key={key}>
+                <CardContent>{message.content}</CardContent>
+              </Card>
+            ),
+          )
+        ) : (
+          <div>No message yet!</div>
+        )}
       </div>
       <ChatForm />
     </div>
