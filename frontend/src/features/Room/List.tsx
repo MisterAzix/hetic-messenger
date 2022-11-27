@@ -1,7 +1,7 @@
 import css from './UserList.module.scss';
 import { useGetUsers } from '../../hooks/useGetUsers';
 import { Avatar, Card, CardHeader } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { parseJwt } from '../../utils';
@@ -9,6 +9,7 @@ import { IMessage, IUser } from '../../types';
 
 export function UserList() {
   const users = useGetUsers();
+  const { userId } = useParams();
 
   const { jwt, messages } = useSelector((state: AppState) => ({
     jwt: state.auth,
@@ -40,7 +41,10 @@ export function UserList() {
 
           return (
             <NavLink key={user.id} to={`/room/${user.id}`}>
-              <Card className={css.card}>
+              <Card
+                className={css.card}
+                sx={{ backgroundColor: String(user.id) === userId ? 'lightgray' : null }}
+              >
                 <CardHeader
                   avatar={
                     <Avatar sx={{ background: 'darkgray' }} aria-label="recipe">
