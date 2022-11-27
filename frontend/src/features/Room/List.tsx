@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { parseJwt } from '../../utils';
+import { IMessage, IUser } from '../../types';
 
 export function UserList() {
   const users = useGetUsers();
@@ -18,17 +19,24 @@ export function UserList() {
 
   if (!users) return <div>Loading users...</div>;
 
+  const getRoomLastMessage = (user: IUser): IMessage =>
+    [...messages].filter(
+      (message) =>
+        (String(message.from.id) === me && String(message.to.id) === String(user.id)) ||
+        (String(message.from.id) === String(user.id) && String(message.to.id) === me),
+    )[0];
+
   return (
     <div className={css.list}>
       {users
         .filter((user) => String(user.id) !== me)
+        .sort(
+          (a, b) =>
+            (new Date(getRoomLastMessage(b)?.sent_at)?.getTime() || 0) -
+            (new Date(getRoomLastMessage(a)?.sent_at)?.getTime() || 0),
+        )
         .map((user) => {
-          const subheader =
-            messages.filter(
-              (message) =>
-                (String(message.from.id) === me && String(message.to.id) === String(user.id)) ||
-                (String(message.from.id) === String(user.id) && String(message.to.id) === me),
-            )[0]?.content || 'No message...';
+          const subheader = getRoomLastMessage(user)?.content || 'No message...';
 
           return (
             <NavLink key={user.id} to={`/room/${user.id}`}>
