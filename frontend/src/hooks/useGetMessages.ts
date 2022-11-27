@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { IMessage } from '../types';
 import { useSelector } from 'react-redux';
-import { AppState } from '../store/store';
+import { AppState } from '../store';
 
 type IGetMessagesReponse = IMessage[];
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AppState } from '../store/store';
+import { AppState } from '../store';
 
 export interface INeedAuthProps {
   children: JSX.Element;

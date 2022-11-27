@@ -10,7 +10,7 @@ interface IRegisterResponse {
   user?: any;
 }
 
-export default function useRegister() {
+export function useRegister() {
   return function ({
     username,
     password,

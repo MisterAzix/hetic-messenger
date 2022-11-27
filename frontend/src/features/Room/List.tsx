@@ -3,10 +3,10 @@ import { useGetUsers } from '../../hooks/useGetUsers';
 import { Avatar, Card, CardHeader } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../store/store';
+import { AppState } from '../../store';
 import { parseJwt } from '../../utils';
 
-export default function UserList() {
+export function UserList() {
   const users = useGetUsers();
 
   const { jwt, messages } = useSelector((state: AppState) => ({

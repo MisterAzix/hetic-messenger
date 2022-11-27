@@ -1,13 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { Box, FormGroup } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { FormInputText } from '../FormInputText';
+import { FormInputText } from '../../components/FormInputText';
 import { useState } from 'react';
-import useSendMessage from '../../hooks/useSendMessage';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, AppState } from '../../store/store';
+import { useSendMessage } from './hooks';
+import { useDispatch } from 'react-redux';
+import { addOneMessage, AppDispatch } from '../../store';
 import { useParams } from 'react-router-dom';
-import { addOneMessage } from '../../store/messageSlice';
 
 interface IFormInput {
   message: string;

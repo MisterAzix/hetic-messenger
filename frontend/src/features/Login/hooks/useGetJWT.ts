@@ -9,7 +9,7 @@ interface IGetJWTResponse {
   message?: string;
 }
 
-export default function useGetJWT() {
+export function useGetJWT() {
   return function ({ username, password }: IGetJWTRequest): Promise<IGetJWTResponse> {
     const credentials = btoa(`${username}:${password}`);
 

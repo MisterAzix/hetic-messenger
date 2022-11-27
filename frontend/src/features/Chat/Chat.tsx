@@ -2,13 +2,12 @@ import { ChatForm } from './ChatForm';
 import css from './Chat.module.scss';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { AppDispatch, AppState } from '../../store/store';
+import { addOneMessage, AppDispatch, AppState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addOneMessage } from '../../store/messageSlice';
 import { parseJwt } from '../../utils';
 import { Card, CardContent } from '@mui/material';
 
-export default function Chat() {
+export function Chat() {
   const dispatch: AppDispatch = useDispatch();
   const { userId } = useParams();
 

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { AppState } from '../store/store';
+import { AppState } from '../../../store';
 
 interface ISendMessageRequest {
   id: string;
@@ -11,7 +11,7 @@ interface ISendMessageResponse {
   message: string;
 }
 
-export default function useSendMessage() {
+export function useSendMessage() {
   const { jwt } = useSelector((state: AppState) => ({
     jwt: state.auth,
   }));

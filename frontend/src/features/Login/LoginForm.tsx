@@ -1,27 +1,30 @@
 import { useForm } from 'react-hook-form';
-import { Box, FormGroup, Alert } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { FormInputText } from './FormInputText';
+import { useGetJWT } from './hooks';
 import { useState } from 'react';
-import useRegister from '../hooks/useRegister';
-import { useNavigate } from 'react-router-dom';
+import { Alert, Box, FormGroup } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { FormInputText } from '../../components/FormInputText';
+import { useDispatch } from 'react-redux';
+import { addAuth, AppDispatch } from '../../store';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IFormInput {
   username: string;
   password: string;
-  confirm_password: string;
 }
 
 const defaultValues: IFormInput = {
   username: '',
   password: '',
-  confirm_password: '',
 };
 
-export const RegisterForm = () => {
+export function LoginForm() {
   const { control, handleSubmit } = useForm<IFormInput>({ defaultValues });
-  const register = useRegister();
+  const dispatch: AppDispatch = useDispatch();
+  const getJWT = useGetJWT();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -29,12 +32,13 @@ export const RegisterForm = () => {
   const onSubmit = (formData: IFormInput) => {
     setIsLoading(true);
     setError('');
-    register(formData).then((data) => {
+    getJWT(formData).then((data) => {
       setIsLoading(false);
-      if (data.user) {
-        navigate('/login');
-      } else if (data.message === 'Password and confirm password must be same!') {
-        setError('Password and confirm password must be same!');
+      if (data.success && data.JWT) {
+        dispatch(addAuth({ jwt: data.JWT }));
+        navigate(from, { replace: true });
+      } else if (data.message === 'Bad credentials') {
+        setError('Incorrect password!');
       } else {
         setError('An error as occurred!');
       }
@@ -58,13 +62,6 @@ export const RegisterForm = () => {
           label="Password"
           required
         />
-        <FormInputText
-          type={'password'}
-          name="confirm_password"
-          control={control}
-          label="Confirm password"
-          required
-        />
 
         <LoadingButton
           loading={isLoading}
@@ -72,9 +69,9 @@ export const RegisterForm = () => {
           onClick={handleSubmit(onSubmit)}
           variant={'contained'}
         >
-          Register
+          Login
         </LoadingButton>
       </FormGroup>
     </Box>
   );
-};
+}

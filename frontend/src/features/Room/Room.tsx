@@ -1,13 +1,12 @@
-import UserList from '../UserList/List';
+import { UserList } from './List';
 import { Outlet } from 'react-router-dom';
 import css from './Room.module.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store/store';
-import { getAllMessages } from '../../store/messageSlice';
+import { AppDispatch, getAllMessages } from '../../store';
 import { useGetMessages } from '../../hooks/useGetMessages';
 
-export default function Room() {
+export function Room() {
   const dispatch: AppDispatch = useDispatch();
   const messages = useGetMessages();
 
