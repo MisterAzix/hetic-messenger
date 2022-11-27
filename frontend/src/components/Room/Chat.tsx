@@ -47,17 +47,23 @@ export default function Chat() {
     <div className={css.container}>
       <div className={css.messages}>
         {roomMessages.length ? (
-          roomMessages.reverse().map((message, key) =>
-            String(message.from.id) === me ? (
-              <Card sx={{ maxWidth: '75%', marginY: '0.5rem', marginLeft: 'auto' }} key={key}>
-                <CardContent>{message.content}</CardContent>
-              </Card>
-            ) : (
-              <Card sx={{ maxWidth: '75%', marginY: '0.5rem' }} key={key}>
-                <CardContent>{message.content}</CardContent>
-              </Card>
-            ),
-          )
+          roomMessages.reverse().map((message, key) => (
+            <Card
+              sx={{
+                maxWidth: '75%',
+                marginY: '0.5rem',
+                marginLeft: String(message.from.id) === me ? 'auto' : null,
+              }}
+              key={key}
+            >
+              <CardContent>
+                <strong>
+                  {message.from.username} ({new Date(message.sent_at).toLocaleString()}):
+                </strong>{' '}
+                {message.content}
+              </CardContent>
+            </Card>
+          ))
         ) : (
           <div>No message yet!</div>
         )}
