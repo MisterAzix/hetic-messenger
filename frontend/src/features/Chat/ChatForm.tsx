@@ -18,7 +18,7 @@ const defaultValues: IFormInput = {
 
 export const ChatForm = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { control, handleSubmit } = useForm<IFormInput>({ defaultValues });
+  const { control, handleSubmit, reset } = useForm<IFormInput>({ defaultValues });
   const sendMessage = useSendMessage();
   const { userId } = useParams();
 
@@ -29,6 +29,7 @@ export const ChatForm = () => {
     sendMessage({ id: userId || '', message: formData.message }).then((data) => {
       setIsLoading(false);
       if (data) {
+        reset();
         dispatch(
           addOneMessage({
             from: data.from,
