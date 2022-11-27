@@ -1,5 +1,7 @@
+import { useSelector } from 'react-redux';
+import { AppState } from '../store/store';
+
 interface ISendMessageRequest {
-  jwt: string;
   id: string;
   message: string;
 }
@@ -10,7 +12,11 @@ interface ISendMessageResponse {
 }
 
 export default function useSendMessage() {
-  return function ({ jwt, id, message }: ISendMessageRequest): Promise<ISendMessageResponse> {
+  const { jwt } = useSelector((state: AppState) => ({
+    jwt: state.auth,
+  }));
+
+  return function ({ id, message }: ISendMessageRequest): Promise<ISendMessageResponse> {
     return fetch(`http://localhost:8245/message/${id}`, {
       method: 'POST',
       headers: {

@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-
-interface IUser {
-  id: number;
-  username: string;
-}
+import { IUser } from '../types';
 
 type IGetUsersReponse = IUser[];
 
