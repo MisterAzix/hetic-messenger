@@ -1,15 +1,13 @@
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../store';
+import { IMessage } from '../../../types';
 
 interface ISendMessageRequest {
   id: string;
   message: string;
 }
 
-interface ISendMessageResponse {
-  success: boolean;
-  message: string;
-}
+type ISendMessageResponse = IMessage;
 
 export function useSendMessage() {
   const { jwt } = useSelector((state: AppState) => ({

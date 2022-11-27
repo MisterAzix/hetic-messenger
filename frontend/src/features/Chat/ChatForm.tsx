@@ -29,7 +29,14 @@ export const ChatForm = () => {
     sendMessage({ id: userId || '', message: formData.message }).then((data) => {
       setIsLoading(false);
       if (data) {
-        dispatch(addOneMessage(data));
+        dispatch(
+          addOneMessage({
+            from: data.from,
+            to: data.to,
+            content: data.content,
+            sent_at: data.sent_at,
+          }),
+        );
       }
     });
   };

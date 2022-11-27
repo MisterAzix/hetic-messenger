@@ -23,11 +23,18 @@ export function Chat() {
       (String(message.from.id) === me && String(message.to.id) === String(userId)) ||
       (String(message.from.id) === String(userId) && String(message.to.id) === me),
   );
-  console.log(roomMessages);
 
   const handleMessage = (e: MessageEvent) => {
     const data = JSON.parse(e.data);
-    dispatch(addOneMessage(data));
+    console.log(data);
+    dispatch(
+      addOneMessage({
+        from: data.from,
+        to: data.to,
+        content: data.content,
+        sent_at: data.sent_at.date,
+      }),
+    );
   };
 
   useEffect(() => {
