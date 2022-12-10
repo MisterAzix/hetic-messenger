@@ -6,8 +6,9 @@ const authSlice = createSlice({
   reducers: {
     addAuth: (state, action: PayloadAction<{ jwt: string }>) =>
       action.payload.jwt,
+    clearAuth: () => "",
   },
 });
 
-export const { addAuth } = authSlice.actions;
+export const { addAuth, clearAuth } = authSlice.actions;
 export default authSlice.reducer;

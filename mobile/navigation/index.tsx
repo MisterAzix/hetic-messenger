@@ -28,7 +28,7 @@ import {
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AppDispatch } from "../store";
+import { AppDispatch, clearAuth } from "../store";
 import { useDispatch } from "react-redux";
 
 export default function Navigation({
@@ -90,6 +90,12 @@ const BottomTab = createNativeStackNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
+  const dispatch: AppDispatch = useDispatch();
+
+  const handleLogout = (navigation: any) => {
+    navigation.navigate("Login");
+    dispatch(clearAuth());
+  };
 
   return (
     <BottomTab.Navigator initialRouteName="UsersList">
@@ -98,6 +104,21 @@ function BottomTabNavigator() {
         component={UsersListScreen}
         options={({ navigation }: RootTabScreenProps<"UsersList">) => ({
           title: "UsersList",
+          headerRight: () => (
+            <Pressable
+              onPress={() => handleLogout(navigation)}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome
+                name="sign-out"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
         })}
       />
       <BottomTab.Screen
@@ -105,6 +126,21 @@ function BottomTabNavigator() {
         component={ChatScreen}
         options={({ navigation }: RootTabScreenProps<"Chat">) => ({
           title: "Chat",
+          headerRight: () => (
+            <Pressable
+              onPress={() => handleLogout(navigation)}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <FontAwesome
+                name="sign-out"
+                size={25}
+                color={Colors[colorScheme].text}
+                style={{ marginRight: 15 }}
+              />
+            </Pressable>
+          ),
           headerLeft: () => (
             <Pressable
               onPress={() => navigation.navigate("UsersList")}
