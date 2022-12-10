@@ -5,15 +5,15 @@ import { RootTabScreenProps } from "../types";
 import { RegisterForm } from "../features/Register/RegisterForm";
 import { Text } from "@react-native-material/core";
 
-export default function TabOneScreen({
+export default function RegisterScreen({
   navigation,
-}: RootTabScreenProps<"TabOne">) {
+}: RootTabScreenProps<"Register">) {
   return (
     <View style={styles.container}>
       <Text style={styles.heading} variant="h3">
         Register now!
       </Text>
-      <RegisterForm />
+      <RegisterForm navigation={navigation} />
     </View>
   );
 }

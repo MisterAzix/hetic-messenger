@@ -16,7 +16,7 @@ const defaultValues: IFormInput = {
   confirm_password: "",
 };
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ navigation }: { navigation: any }) => {
   const { control, handleSubmit } = useForm<IFormInput>({ defaultValues });
   const register = useRegister();
 
@@ -29,7 +29,7 @@ export const RegisterForm = () => {
     register(formData).then((data) => {
       setIsLoading(false);
       if (data.user) {
-        alert("navigation vers la liste des users");
+        navigation.navigate("Login");
       } else if (
         data.message === "Password and confirm password must be same!"
       ) {

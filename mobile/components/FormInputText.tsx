@@ -33,7 +33,7 @@ export const FormInputText = ({
   return (
     <TextInput
       style={style}
-      secureTextEntry={showPassword}
+      secureTextEntry={isPassword && showPassword}
       helperText={fieldState.error && fieldState.error.message}
       onChangeText={field.onChange}
       value={field.value}
