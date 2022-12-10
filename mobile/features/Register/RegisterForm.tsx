@@ -74,6 +74,12 @@ export const RegisterForm = ({ navigation }: { navigation: any }) => {
         loadingIndicatorPosition="overlay"
         onTouchStart={handleSubmit(onSubmit)}
       />
+      <Button
+        title={"I have an account!"}
+        color="primary"
+        variant={"text"}
+        onTouchStart={() => navigation.navigate("Login")}
+      />
     </Stack>
   );
 };

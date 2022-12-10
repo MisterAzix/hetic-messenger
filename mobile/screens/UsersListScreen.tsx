@@ -2,17 +2,25 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
+import { Button } from "@react-native-material/core";
 
 export default function UsersListScreen({
   navigation,
-}: RootTabScreenProps<"Login">) {
+}: RootTabScreenProps<"UsersList">) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>UsersList</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
+      />
+
+      <Button
+        title={"Chat 1"}
+        color="primary"
+        variant={"text"}
+        onTouchStart={() => navigation.navigate("Chat", { id: 1 })}
       />
     </View>
   );

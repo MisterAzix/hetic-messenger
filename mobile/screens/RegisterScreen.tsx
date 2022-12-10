@@ -1,13 +1,13 @@
 import { StyleSheet } from "react-native";
 
 import { View } from "../components/Themed";
-import { RootTabScreenProps } from "../types";
 import { RegisterForm } from "../features/Register/RegisterForm";
 import { Text } from "@react-native-material/core";
+import { RootStackScreenProps } from "../types";
 
 export default function RegisterScreen({
   navigation,
-}: RootTabScreenProps<"Register">) {
+}: RootStackScreenProps<"Register">) {
   return (
     <View style={styles.container}>
       <Text style={styles.heading} variant="h3">

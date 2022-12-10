@@ -4,11 +4,14 @@ import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 
 export default function ChatScreen({
+  route,
   navigation,
-}: RootTabScreenProps<"Login">) {
+}: RootTabScreenProps<"Chat">) {
+  const { id } = route.params || {};
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chat</Text>
+      <Text style={styles.title}>Chat - {id}</Text>
       <View
         style={styles.separator}
         lightColor="#eee"

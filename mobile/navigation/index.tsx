@@ -18,14 +18,18 @@ import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import Register from "../screens/RegisterScreen";
-import Login from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import LoginScreen from "../screens/LoginScreen";
+import UsersListScreen from "../screens/UsersListScreen";
+import ChatScreen from "../screens/ChatScreen";
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
+import { AppDispatch } from "../store";
+import { useDispatch } from "react-redux";
 
 export default function Navigation({
   colorScheme,
@@ -52,6 +56,16 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
         options={{ headerShown: false }}
@@ -72,48 +86,41 @@ function RootNavigator() {
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const BottomTab = createNativeStackNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}
-    >
+    <BottomTab.Navigator initialRouteName="UsersList">
       <BottomTab.Screen
-        name="Login"
-        component={Login}
-        options={({ navigation }: RootTabScreenProps<"Login">) => ({
-          title: "Login",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
+        name="UsersList"
+        component={UsersListScreen}
+        options={({ navigation }: RootTabScreenProps<"UsersList">) => ({
+          title: "UsersList",
+        })}
+      />
+      <BottomTab.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={({ navigation }: RootTabScreenProps<"Chat">) => ({
+          title: "Chat",
+          headerLeft: () => (
             <Pressable
-              onPress={() => navigation.navigate("Modal")}
+              onPress={() => navigation.navigate("UsersList")}
               style={({ pressed }) => ({
                 opacity: pressed ? 0.5 : 1,
               })}
             >
               <FontAwesome
-                name="info-circle"
+                name="arrow-left"
                 size={25}
                 color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
+                style={{ marginLeft: 15 }}
               />
             </Pressable>
           ),
         })}
-      />
-      <BottomTab.Screen
-        name="Register"
-        component={Register}
-        options={{
-          title: "Register",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
       />
     </BottomTab.Navigator>
   );

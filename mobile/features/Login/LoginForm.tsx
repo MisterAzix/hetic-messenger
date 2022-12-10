@@ -31,7 +31,7 @@ export const LoginForm = ({ navigation }: { navigation: any }) => {
       setIsLoading(false);
       if (data.success && data.JWT) {
         dispatch(addAuth({ jwt: data.JWT }));
-        navigation.navigate("Register"); // TODO Change by Root when screen is implemented
+        navigation.navigate("Root");
       } else if (data.message === "Bad credentials") {
         setError("Incorrect password!");
       } else {
