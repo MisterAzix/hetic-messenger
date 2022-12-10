@@ -1,12 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IMessage } from '../types';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IMessage } from "../types/";
 
 const messagesSlice = createSlice({
-  name: 'messages',
+  name: "messages",
   initialState: [] as IMessage[],
   reducers: {
-    getAllMessages: (state, action: PayloadAction<IMessage[]>) => action.payload,
-    addOneMessage: (state, action: PayloadAction<IMessage>) => [action.payload, ...state],
+    getAllMessages: (state, action: PayloadAction<IMessage[]>) =>
+      action.payload,
+    addOneMessage: (state, action: PayloadAction<IMessage>) => [
+      action.payload,
+      ...state,
+    ],
   },
 });
 

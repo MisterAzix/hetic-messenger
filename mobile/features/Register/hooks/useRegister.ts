@@ -16,11 +16,11 @@ export function useRegister() {
     password,
     confirm_password,
   }: IRegisterRequest): Promise<IRegisterResponse> {
-    return fetch('http://localhost:8245/user/new', {
-      method: 'POST',
-      credentials: 'include',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
+    return fetch("http://localhost:8245/user/new", {
+      method: "POST",
+      credentials: "include",
+      mode: "cors",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username,
         password,

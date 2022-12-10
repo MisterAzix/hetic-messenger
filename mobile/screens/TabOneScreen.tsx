@@ -1,15 +1,19 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import {  View } from '../components/Themed';
-import { RootTabScreenProps } from '../types';
-import RegisterForm from '../features/Register/RegisterForm'
-import {Text} from "@react-native-material/core"
+import { View } from "../components/Themed";
+import { RootTabScreenProps } from "../types";
+import RegisterForm from "../features/Register/RegisterForm";
+import { Text } from "@react-native-material/core";
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({
+  navigation,
+}: RootTabScreenProps<"TabOne">) {
   return (
     <View style={styles.container}>
-      <Text style={styles.heading} variant='h2'>Register now!</Text>
-      <RegisterForm/>
+      <Text style={styles.heading} variant="h2">
+        Register now!
+      </Text>
+      <RegisterForm />
     </View>
   );
 }
@@ -17,10 +21,10 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
     paddingHorizontal: 20,
   },
   heading: {
     marginBottom: 25,
-  }
+  },
 });

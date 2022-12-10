@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const authSlice = createSlice({
-  name: 'auth',
-  initialState: '',
+  name: "auth",
+  initialState: "",
   reducers: {
-    addAuth: (state, action: PayloadAction<{ jwt: string }>) => action.payload.jwt,
+    addAuth: (state, action: PayloadAction<{ jwt: string }>) =>
+      action.payload.jwt,
   },
 });
 
