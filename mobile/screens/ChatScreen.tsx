@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 
-export default function LoginScreen({
+export default function ChatScreen({
   navigation,
 }: RootTabScreenProps<"Login">) {
   return (

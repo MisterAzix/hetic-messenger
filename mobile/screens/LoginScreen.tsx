@@ -1,19 +1,19 @@
 import { StyleSheet } from "react-native";
 
-import { Text, View } from "../components/Themed";
+import { View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
+import { LoginForm } from "../features/Login/LoginForm";
+import { Text } from "@react-native-material/core";
 
 export default function LoginScreen({
   navigation,
 }: RootTabScreenProps<"Login">) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <Text style={styles.heading} variant="h3">
+        Login
+      </Text>
+      <LoginForm navigation={navigation} />
     </View>
   );
 }
@@ -21,16 +21,10 @@ export default function LoginScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 20,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  heading: {
+    marginBottom: 25,
   },
 });
