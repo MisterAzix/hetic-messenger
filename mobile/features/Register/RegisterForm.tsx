@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { FormInputText } from "../../components/FormInputText";
 import { useRegister } from "./hooks";
 import { useState } from "react";
-import { Button, Stack } from "@react-native-material/core";
+import { Button, Stack, Text } from "@react-native-material/core";
 
 interface IFormInput {
   username: string;
@@ -29,7 +29,7 @@ export const RegisterForm = () => {
     register(formData).then((data) => {
       setIsLoading(false);
       if (data.user) {
-        alert("navigation vers le site");
+        alert("navigation vers la liste des users");
       } else if (
         data.message === "Password and confirm password must be same!"
       ) {
@@ -62,6 +62,11 @@ export const RegisterForm = () => {
         label={"Confirm password"}
         required
       />
+      {error && (
+        <Text color={"error"} variant="subtitle2">
+          {error}
+        </Text>
+      )}
       <Button
         title={"Register"}
         color="primary"
@@ -72,5 +77,3 @@ export const RegisterForm = () => {
     </Stack>
   );
 };
-
-export default RegisterForm;
