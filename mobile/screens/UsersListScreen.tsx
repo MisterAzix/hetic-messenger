@@ -7,10 +7,12 @@ import { useSelector } from "react-redux";
 import { AppState } from "../store";
 import { parseJwt } from "../utils";
 import { UserCard } from "../features/UsersList/UserCard";
+import { useHandleMessage } from "../hooks/useHandleMessage";
 
 export default function UsersListScreen({
   navigation,
 }: RootTabScreenProps<"UsersList">) {
+  useHandleMessage();
   const users = useGetUsers();
 
   const { jwt, messages } = useSelector((state: AppState) => ({
