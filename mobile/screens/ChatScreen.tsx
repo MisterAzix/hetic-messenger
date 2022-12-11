@@ -2,21 +2,23 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
+import { ChatForm } from "../features/Chat/ChatForm";
 
 export default function ChatScreen({
   route,
   navigation,
 }: RootTabScreenProps<"Chat">) {
-  const { id } = route.params || {};
+  const { userId } = route.params || {};
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chat - {id}</Text>
+      <Text style={styles.title}>Chat - {userId}</Text>
       <View
         style={styles.separator}
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
+      <ChatForm userId={userId} />
     </View>
   );
 }
@@ -24,8 +26,8 @@ export default function ChatScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    padding: 10,
   },
   title: {
     fontSize: 20,
