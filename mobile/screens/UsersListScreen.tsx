@@ -1,44 +1,67 @@
-import { StyleSheet } from "react-native";
-
-import { Text, View } from "../components/Themed";
+import { ScrollView, StyleSheet } from "react-native";
+import { IMessage, IUser } from "../types/";
 import { RootTabScreenProps } from "../types";
-import { Button } from "@react-native-material/core";
+import { Stack } from "@react-native-material/core";
+import { useGetUsers } from "../hooks/useGetUsers";
+import { useSelector } from "react-redux";
+import { AppState } from "../store";
+import { parseJwt } from "../utils";
+import { UserCard } from "../features/UsersList/UserCard";
 
 export default function UsersListScreen({
   navigation,
 }: RootTabScreenProps<"UsersList">) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>UsersList</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+  const users = useGetUsers();
 
-      <Button
-        title={"Chat 1"}
-        color="primary"
-        variant={"text"}
-        onTouchStart={() => navigation.navigate("Chat", { id: 1 })}
-      />
-    </View>
+  const { jwt, messages } = useSelector((state: AppState) => ({
+    jwt: state.auth,
+    messages: state.messages,
+  }));
+
+  const me = String(parseJwt(jwt).mercure.payload.userid);
+
+  if (!users) return <div>Loading users...</div>;
+
+  const getRoomLastMessage = (user: IUser): IMessage =>
+    [...messages].filter(
+      (message) =>
+        (String(message.from.id) === me &&
+          String(message.to.id) === String(user.id)) ||
+        (String(message.from.id) === String(user.id) &&
+          String(message.to.id) === me)
+    )[0];
+
+  return (
+    <ScrollView style={styles.container}>
+      <Stack spacing={8}>
+        {users
+          .filter((user) => String(user.id) !== me)
+          .sort(
+            (a, b) =>
+              (new Date(getRoomLastMessage(b)?.sent_at)?.getTime() || 0) -
+              (new Date(getRoomLastMessage(a)?.sent_at)?.getTime() || 0)
+          )
+          .map((user) => {
+            const subheader =
+              getRoomLastMessage(user)?.content || "No message...";
+
+            return (
+              <UserCard
+                key={user.id}
+                navigation={navigation}
+                user={user}
+                subheader={subheader}
+              />
+            );
+          })}
+      </Stack>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+    padding: 10,
   },
 });

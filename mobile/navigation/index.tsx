@@ -28,8 +28,10 @@ import {
   RootTabScreenProps,
 } from "../types";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { AppDispatch, clearAuth } from "../store";
+import { AppDispatch, clearAuth, getAllMessages } from "../store";
 import { useDispatch } from "react-redux";
+import { useGetMessages } from "../hooks/useGetMessages";
+import { useEffect } from "react";
 
 export default function Navigation({
   colorScheme,
@@ -89,8 +91,13 @@ function RootNavigator() {
 const BottomTab = createNativeStackNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
   const dispatch: AppDispatch = useDispatch();
+  const colorScheme = useColorScheme();
+  const messages = useGetMessages();
+
+  useEffect(() => {
+    dispatch(getAllMessages(messages));
+  }, [messages]);
 
   const handleLogout = (navigation: any) => {
     navigation.navigate("Login");

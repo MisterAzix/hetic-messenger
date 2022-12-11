@@ -29,7 +29,7 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList> =
 
 export type RootTabParamList = {
   UsersList: undefined;
-  Chat: { id: number };
+  Chat: { userId: string };
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
