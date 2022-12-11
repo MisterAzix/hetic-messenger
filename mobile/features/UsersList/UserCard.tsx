@@ -23,15 +23,7 @@ export const UserCard = ({
       style={style}
       onPress={() => navigation.navigate("Chat", { userId: user.id })}
     >
-      <Surface
-        elevation={1}
-        category="medium"
-        style={{
-          justifyContent: "center",
-          padding: 16,
-          height: 70,
-        }}
-      >
+      <Surface elevation={1} category="medium" style={styles.card}>
         <HStack spacing={10}>
           <Avatar label={user.username} autoColor></Avatar>
           <View style={styles.cardContent}>
@@ -48,6 +40,10 @@ export const UserCard = ({
 };
 
 const styles = StyleSheet.create({
+  card: {
+    justifyContent: "center",
+    padding: 16,
+  },
   cardContent: {
     justifyContent: "center",
     flex: 1,

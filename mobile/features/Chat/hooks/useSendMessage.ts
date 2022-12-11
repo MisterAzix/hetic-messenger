@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
-import { AppState } from '../../../store';
-import { IMessage } from '../../../types';
+import { useSelector } from "react-redux";
+import { AppState } from "../../../store";
+import { IMessage } from "../../../types/";
 
 interface ISendMessageRequest {
   id: string;
@@ -14,12 +14,15 @@ export function useSendMessage() {
     jwt: state.auth,
   }));
 
-  return function ({ id, message }: ISendMessageRequest): Promise<ISendMessageResponse> {
+  return function ({
+    id,
+    message,
+  }: ISendMessageRequest): Promise<ISendMessageResponse> {
     return fetch(`http://localhost:8245/message/${id}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         Authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         jwt,
