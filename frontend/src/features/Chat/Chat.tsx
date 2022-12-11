@@ -26,13 +26,14 @@ export function Chat() {
 
   const handleMessage = (e: MessageEvent) => {
     const data = JSON.parse(e.data);
-    console.log(data);
+    const sentAt = new Date(data.sent_at.date);
+    sentAt.setHours(sentAt.getHours() + 1);
     dispatch(
       addOneMessage({
         from: data.from,
         to: data.to,
         content: data.content,
-        sent_at: data.sent_at.date,
+        sent_at: sentAt,
       }),
     );
   };

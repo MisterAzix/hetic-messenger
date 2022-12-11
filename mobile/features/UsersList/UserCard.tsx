@@ -1,19 +1,23 @@
 import { Avatar, HStack, Surface, Text } from "@react-native-material/core";
 import { View } from "../../components/Themed";
 import { Pressable, StyleSheet } from "react-native";
-import { IUser } from "../../types/";
+import { IMessage, IUser } from "../../types/";
+import { formatTimeAgo } from "../../utils";
 
 export const UserCard = ({
   style,
   navigation,
   user,
-  subheader,
+  lastMessage,
 }: {
   style?: any;
   navigation: any;
   user: IUser;
-  subheader: string;
+  lastMessage: IMessage;
 }) => {
+  const subheader = lastMessage?.content || "No message...";
+  const sentAt = formatTimeAgo(new Date(lastMessage?.sent_at));
+
   return (
     <Pressable
       style={style}
@@ -31,7 +35,10 @@ export const UserCard = ({
         <HStack spacing={10}>
           <Avatar label={user.username} autoColor></Avatar>
           <View style={styles.cardContent}>
-            <Text variant="h6">{user.username}</Text>
+            <Text variant="h6" numberOfLines={1}>
+              {user.username}
+              {sentAt && <Text variant={"subtitle2"}> - {sentAt}</Text>}
+            </Text>
             <Text numberOfLines={1}>{subheader}</Text>
           </View>
         </HStack>

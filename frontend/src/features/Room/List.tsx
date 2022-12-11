@@ -4,7 +4,7 @@ import { Avatar, Card, CardHeader } from '@mui/material';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
-import { parseJwt } from '../../utils';
+import { formatTimeAgo, parseJwt } from '../../utils';
 import { IMessage, IUser } from '../../types';
 
 export function UserList() {
@@ -37,7 +37,10 @@ export function UserList() {
             (new Date(getRoomLastMessage(a)?.sent_at)?.getTime() || 0),
         )
         .map((user) => {
-          const subheader = getRoomLastMessage(user)?.content || 'No message...';
+          const lastMessage = getRoomLastMessage(user);
+          const subheader = lastMessage?.content || 'No message...';
+          const sentAt = formatTimeAgo(new Date(lastMessage?.sent_at));
+          const title = sentAt ? `${user.username} - ${sentAt}` : user.username;
 
           return (
             <NavLink key={user.id} to={`/room/${user.id}`}>
@@ -51,7 +54,7 @@ export function UserList() {
                       {user.username.split('')[0].toUpperCase()}
                     </Avatar>
                   }
-                  title={user.username}
+                  title={title}
                   subheader={subheader}
                 ></CardHeader>
               </Card>

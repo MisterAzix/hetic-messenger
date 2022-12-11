@@ -44,15 +44,14 @@ export default function UsersListScreen({
               (new Date(getRoomLastMessage(a)?.sent_at)?.getTime() || 0)
           )
           .map((user) => {
-            const subheader =
-              getRoomLastMessage(user)?.content || "No message...";
+            const lastMessage = getRoomLastMessage(user);
 
             return (
               <UserCard
                 key={user.id}
                 navigation={navigation}
                 user={user}
-                subheader={subheader}
+                lastMessage={lastMessage}
               />
             );
           })}
