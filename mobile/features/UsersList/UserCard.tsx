@@ -32,7 +32,7 @@ export const UserCard = ({
           <Avatar label={user.username} autoColor></Avatar>
           <View style={styles.cardContent}>
             <Text variant="h6">{user.username}</Text>
-            <Text>{subheader}</Text>
+            <Text numberOfLines={1}>{subheader}</Text>
           </View>
         </HStack>
       </Surface>
@@ -43,5 +43,6 @@ export const UserCard = ({
 const styles = StyleSheet.create({
   cardContent: {
     justifyContent: "center",
+    flex: 1,
   },
 });
