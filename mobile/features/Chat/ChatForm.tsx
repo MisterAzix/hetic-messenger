@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { FormInputText } from "../../components/FormInputText";
 import { useSendMessage } from "./hooks";
 import { useState } from "react";
-import { Button, Stack, Text } from "@react-native-material/core";
+import { Button, Stack } from "@react-native-material/core";
 import { addOneMessage, AppDispatch } from "../../store";
 import { useDispatch } from "react-redux";
 
