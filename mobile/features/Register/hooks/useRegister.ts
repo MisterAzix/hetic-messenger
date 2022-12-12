@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { APP_SYMFONY_URL } from "@env";
+
 interface IRegisterRequest {
   username: string;
   password: string;
@@ -16,7 +20,7 @@ export function useRegister() {
     password,
     confirm_password,
   }: IRegisterRequest): Promise<IRegisterResponse> {
-    return fetch("http://localhost:8245/user/new", {
+    return fetch(`${APP_SYMFONY_URL}user/new`, {
       method: "POST",
       credentials: "include",
       mode: "cors",

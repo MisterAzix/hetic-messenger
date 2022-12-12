@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import { AppState } from "../../../store";
 import { IMessage } from "../../../types/";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { APP_SYMFONY_URL } from "@env";
 
 interface ISendMessageRequest {
   id: string;
@@ -18,7 +21,7 @@ export function useSendMessage() {
     id,
     message,
   }: ISendMessageRequest): Promise<ISendMessageResponse> {
-    return fetch(`http://localhost:8245/message/${id}`, {
+    return fetch(`${APP_SYMFONY_URL}message/${id}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${jwt}`,

@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { APP_SYMFONY_URL } from "@env";
+
 interface IGetJWTRequest {
   username: string;
   password: string;
@@ -16,7 +20,7 @@ export function useGetJWT() {
   }: IGetJWTRequest): Promise<IGetJWTResponse> {
     const credentials = btoa(`${username}:${password}`);
 
-    return fetch("http://localhost:8245/login", {
+    return fetch(`${APP_SYMFONY_URL}login`, {
       method: "GET",
       credentials: "include",
       mode: "cors",

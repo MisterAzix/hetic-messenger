@@ -6,6 +6,9 @@ import EventSourceSSE, {
   MessageEvent,
 } from "react-native-sse";
 import "react-native-url-polyfill/auto";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { APP_MERCURE_URL } from "@env";
 
 export function useHandleMessage() {
   const dispatch: AppDispatch = useDispatch();
@@ -32,7 +35,7 @@ export function useHandleMessage() {
   };
 
   useEffect(() => {
-    const url = new URL("http://localhost:9090/.well-known/mercure");
+    const url = new URL(`${APP_MERCURE_URL}.well-known/mercure`);
     url.searchParams.append("topic", "https://example.com/my-private-topic");
 
     const es = new EventSourceSSE(url, {
