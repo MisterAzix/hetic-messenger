@@ -4,9 +4,12 @@
 
 1. Run `docker-compose up -d` to start the symfony app
 2. If u have nvm installed, run `nvm use` or download `node@16.17.0`
-3. Run `cd front`
+3. Run `cd frontend`
 4. Run `npm install` to install dependencies
 5. Run `npm run dev` to start the frontend app
+6. In another terminal, run `cd mobile`
+7. Run `yarn install` to install dependencies
+8. Run `yarn start` to start the mobile app
 
 ### It's the first time you start the project ?
 
